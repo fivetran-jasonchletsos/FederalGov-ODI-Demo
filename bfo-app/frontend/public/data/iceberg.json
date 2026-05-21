@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "catalog": "Snowflake Polaris (BFO GovCloud)",
+  "boundary": "FedRAMP High authorization boundary — BFO-controlled S3 (GovCloud) bucket bfo-odi-lake-gov",
+  "tables": [
+    { "namespace": "gold.benefits", "name": "fact_application_decision", "rows": 41200000, "size_bytes": 28000000000, "partition": "decision_date_month", "last_compaction": "2026-05-20T06:00:00Z" },
+    { "namespace": "gold.benefits", "name": "fact_payment_ledger", "rows": 88400000, "size_bytes": 62000000000, "partition": "payment_date_month", "last_compaction": "2026-05-20T06:12:00Z" },
+    { "namespace": "gold.benefits", "name": "dim_beneficiary", "rows": 9214381, "size_bytes": 4800000000, "partition": "state_code", "last_compaction": "2026-05-19T06:00:00Z" },
+    { "namespace": "gold.integrity", "name": "fact_improper_payment_flag", "rows": 2412000, "size_bytes": 1800000000, "partition": "flag_date_month", "last_compaction": "2026-05-21T02:00:00Z" },
+    { "namespace": "gold.integrity", "name": "dim_scheme_taxonomy", "rows": 42, "size_bytes": 184000, "partition": "none", "last_compaction": "2026-05-15T06:00:00Z" },
+    { "namespace": "gold.workforce", "name": "fact_training_outcome", "rows": 1840000, "size_bytes": 1200000000, "partition": "cohort_quarter", "last_compaction": "2026-05-18T06:00:00Z" },
+    { "namespace": "gold.security", "name": "fact_continuous_monitoring", "rows": 14200000, "size_bytes": 8400000000, "partition": "assessment_date", "last_compaction": "2026-05-21T01:30:00Z" },
+    { "namespace": "gold.mission", "name": "fact_appropriation_execution", "rows": 28400, "size_bytes": 142000000, "partition": "fiscal_quarter", "last_compaction": "2026-05-12T06:00:00Z" }
+  ]
+}

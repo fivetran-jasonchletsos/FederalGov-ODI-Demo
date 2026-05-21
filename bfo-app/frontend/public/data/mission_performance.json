@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "statement_of_outcomes": "BFO administers means-tested benefits, healthcare access, and workforce-development programs in service of measurable citizen outcomes. The agency operates under a unified ODI lakehouse to give the CDO and CISO a single, governed view of program performance.",
+  "strategic_goals": [
+    { "code": "SG-1", "name": "Reduce decision time on benefits applications", "target": "30 days median", "actual": "21.4 days", "trend": "improving", "performance_pct": 142.0 },
+    { "code": "SG-2", "name": "Lower the agency-wide improper-payment rate", "target": "3.0 percent", "actual": "3.7 percent", "trend": "improving", "performance_pct": 81.0 },
+    { "code": "SG-3", "name": "Workforce-program employment outcomes (180-day)", "target": "60 percent", "actual": "64.2 percent", "trend": "improving", "performance_pct": 107.0 },
+    { "code": "SG-4", "name": "Healthcare-access coverage among eligible adults", "target": "82 percent", "actual": "84.1 percent", "trend": "stable", "performance_pct": 102.6 },
+    { "code": "SG-5", "name": "FISMA continuous-monitoring control pass rate", "target": "95 percent", "actual": "98.3 percent", "trend": "improving", "performance_pct": 103.5 },
+    { "code": "SG-6", "name": "Citizen-facing application abandonment rate", "target": "below 15 percent", "actual": "12.8 percent", "trend": "improving", "performance_pct": 117.0 }
+  ],
+  "appropriation_execution": [
+    { "account": "Benefits Administration", "appropriated_usd": 62400000000, "executed_usd": 36100000000, "execution_pct": 57.9 },
+    { "account": "Workforce Development", "appropriated_usd": 8400000000, "executed_usd": 4480000000, "execution_pct": 53.3 },
+    { "account": "Program Integrity (Improper Payments)", "appropriated_usd": 1240000000, "executed_usd": 712000000, "execution_pct": 57.4 },
+    { "account": "Information Technology & Cyber", "appropriated_usd": 2110000000, "executed_usd": 1260000000, "execution_pct": 59.7 },
+    { "account": "Workforce Operations (HCM)", "appropriated_usd": 4820000000, "executed_usd": 2840000000, "execution_pct": 58.9 }
+  ],
+  "congressional_reporting": [
+    { "report": "OMB MAX A-11 quarterly performance", "due": "2026-07-15", "status": "On track" },
+    { "report": "GAO Improper Payments Information Act submission", "due": "2026-06-30", "status": "Draft under review" },
+    { "report": "FISMA annual report to OMB", "due": "2026-10-31", "status": "On track" },
+    { "report": "House Oversight workforce-outcomes data call", "due": "2026-06-12", "status": "Compiling" }
+  ]
+}

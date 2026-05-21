@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "source": "demo",
+  "agency": "Bureau of Federal Outcomes",
+  "agency_short": "BFO",
+  "fiscal_year": 2026,
+  "tiles": [
+    { "key": "beneficiaries", "label": "Beneficiaries served (active)", "value": 9214381, "unit": "people", "delta_yoy_pct": 2.1 },
+    { "key": "outlays_ytd", "label": "Outlays year-to-date", "value": 52400000000, "unit": "usd", "delta_yoy_pct": 3.4 },
+    { "key": "applications_processed", "label": "Applications processed YTD", "value": 4731205, "unit": "count", "delta_yoy_pct": 5.8 },
+    { "key": "avg_decision_days", "label": "Average decision time", "value": 21.4, "unit": "days", "delta_yoy_pct": -7.2 },
+    { "key": "fraud_recovered_ytd", "label": "Improper-payment recovery YTD", "value": 612400000, "unit": "usd", "delta_yoy_pct": 18.9 },
+    { "key": "headcount", "label": "Civilian workforce", "value": 18042, "unit": "fte", "delta_yoy_pct": 0.4 },
+    { "key": "fisma_status", "label": "FISMA continuous monitoring", "value": "Authorized", "unit": "ato", "ato_expires": "2027-09-30" },
+    { "key": "open_critical_vulns", "label": "Open critical vulnerabilities", "value": 3, "unit": "count", "delta_yoy_pct": -57.1 }
+  ]
+}

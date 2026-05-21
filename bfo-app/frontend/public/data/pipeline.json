@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "connectors": [
+    { "name": "BENS Mainframe (Cobol benefits engine)", "type": "Fivetran HVR — CDC", "status": "running", "rows_per_hour": 4120000, "lag_seconds": 14, "boundary": "BFO ATO" },
+    { "name": "ServiceNow (case management)", "type": "Fivetran SaaS connector", "status": "running", "rows_per_hour": 184000, "lag_seconds": 22, "boundary": "BFO ATO" },
+    { "name": "Salesforce Public Sector Cloud", "type": "Fivetran SaaS connector", "status": "running", "rows_per_hour": 220000, "lag_seconds": 18, "boundary": "BFO ATO" },
+    { "name": "Workday HCM (federal workforce)", "type": "Fivetran SaaS connector", "status": "running", "rows_per_hour": 38000, "lag_seconds": 41, "boundary": "BFO ATO" },
+    { "name": "GSA SAM.gov vendor feed", "type": "Fivetran Connector SDK", "status": "running", "rows_per_hour": 14200, "lag_seconds": 60, "boundary": "BFO ATO" },
+    { "name": "Treasury IPP improper-payment feed", "type": "Fivetran Connector SDK", "status": "running", "rows_per_hour": 8800, "lag_seconds": 90, "boundary": "BFO ATO" },
+    { "name": "CISA threat-intelligence feed", "type": "Fivetran Connector SDK", "status": "running", "rows_per_hour": 41000, "lag_seconds": 30, "boundary": "BFO ATO" },
+    { "name": "USPS NCOA address feed", "type": "Fivetran Connector SDK", "status": "degraded", "rows_per_hour": 22000, "lag_seconds": 412, "boundary": "BFO ATO", "incident": "Source endpoint TLS rotation, recovery in progress." }
+  ],
+  "layers": [
+    { "layer": "Bronze (raw)", "tables": 142, "rows": 18420000000, "size_bytes": 18400000000000, "last_built": "2026-05-21T07:58:00Z" },
+    { "layer": "Silver (conformed)", "tables": 88, "rows": 6420000000, "size_bytes": 4200000000000, "last_built": "2026-05-21T07:42:00Z" },
+    { "layer": "Gold (semantic)", "tables": 42, "rows": 412000000, "size_bytes": 488000000000, "last_built": "2026-05-21T07:18:00Z" },
+    { "layer": "Marts (mission)", "tables": 24, "rows": 88000000, "size_bytes": 112000000000, "last_built": "2026-05-21T07:24:00Z" }
+  ],
+  "dbt_runs_24h": [
+    { "run_id": "dbt-2026-05-21-0700", "status": "success", "models": 154, "duration_seconds": 612, "tests_passed": 488, "tests_failed": 0 },
+    { "run_id": "dbt-2026-05-21-0100", "status": "success", "models": 154, "duration_seconds": 598, "tests_passed": 488, "tests_failed": 0 },
+    { "run_id": "dbt-2026-05-20-1900", "status": "success", "models": 154, "duration_seconds": 604, "tests_passed": 488, "tests_failed": 0 },
+    { "run_id": "dbt-2026-05-20-1300", "status": "success_with_warnings", "models": 154, "duration_seconds": 622, "tests_passed": 486, "tests_failed": 0, "warnings": ["dim_provider freshness 4h vs 2h target"] }
+  ]
+}

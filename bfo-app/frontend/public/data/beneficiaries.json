@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "applications_received_ytd": 5212894,
+  "applications_decided_ytd": 4731205,
+  "sla_target_days": 30,
+  "sla_compliance_pct": 87.4,
+  "denial_rate_pct": 11.8,
+  "by_program_denial": [
+    { "program": "Family Assistance Grant (FAG)", "denial_rate_pct": 8.4, "decisions_ytd": 1240013 },
+    { "program": "Workforce Transition Stipend (WTS)", "denial_rate_pct": 14.1, "decisions_ytd": 612418 },
+    { "program": "Health Coverage Access Program (HCAP)", "denial_rate_pct": 6.9, "decisions_ytd": 1815223 },
+    { "program": "Senior Nutrition Benefit (SNB)", "denial_rate_pct": 3.2, "decisions_ytd": 522104 },
+    { "program": "Veterans Re-Entry Allowance (VRA)", "denial_rate_pct": 9.7, "decisions_ytd": 188440 },
+    { "program": "Tribal Workforce Compact (TWC)", "denial_rate_pct": 19.2, "decisions_ytd": 48720 },
+    { "program": "Rural Health Access Voucher (RHAV)", "denial_rate_pct": 22.8, "decisions_ytd": 92103 },
+    { "program": "Disability Continuation Benefit (DCB)", "denial_rate_pct": 16.4, "decisions_ytd": 212184 }
+  ],
+  "problem_programs": [
+    { "program": "Rural Health Access Voucher (RHAV)", "issue": "Denial rate 22.8 percent — 11.0 points above agency median; eligibility-form ambiguity flagged by ombudsman.", "owner": "HCAP Program Office", "priority": "high" },
+    { "program": "Tribal Workforce Compact (TWC)", "issue": "Decision time 38 days vs 30-day SLA; backlog in two regional offices.", "owner": "Workforce Programs Office", "priority": "high" },
+    { "program": "Disability Continuation Benefit (DCB)", "issue": "Re-application rate climbing — 14 percent of denials reversed on appeal.", "owner": "Adjudication Services", "priority": "medium" },
+    { "program": "Workforce Transition Stipend (WTS)", "issue": "Application abandonment 22 percent at income-verification step.", "owner": "Citizen Experience Office", "priority": "medium" },
+    { "program": "Veterans Re-Entry Allowance (VRA)", "issue": "Cross-agency data lag with VA pulls — 9-day average.", "owner": "Interagency Data Office", "priority": "low" },
+    { "program": "Family Assistance Grant (FAG)", "issue": "Improper-payment estimate 4.1 percent; OMB target 3.0 percent.", "owner": "Improper Payments Office", "priority": "medium" },
+    { "program": "Health Coverage Access Program (HCAP)", "issue": "Address-of-record mismatches with USPS NCOA in 6.2 percent of cases.", "owner": "Beneficiary Data Office", "priority": "low" },
+    { "program": "Senior Nutrition Benefit (SNB)", "issue": "Renewal-form completion drops below 80 percent in three states.", "owner": "Senior Services Office", "priority": "low" },
+    { "program": "Tribal Workforce Compact (TWC)", "issue": "Certification-pass rate 51 percent — well below 70 percent target.", "owner": "Workforce Programs Office", "priority": "high" },
+    { "program": "Workforce Transition Stipend (WTS)", "issue": "Employment-outcome reporting from state partners lags 60 days.", "owner": "Outcomes Reporting Office", "priority": "medium" }
+  ],
+  "geography": [
+    { "state": "CA", "beneficiaries": 1184302, "outlays_ytd": 6420000000 },
+    { "state": "TX", "beneficiaries": 912104, "outlays_ytd": 4980000000 },
+    { "state": "NY", "beneficiaries": 682441, "outlays_ytd": 3820000000 },
+    { "state": "FL", "beneficiaries": 754220, "outlays_ytd": 4110000000 },
+    { "state": "IL", "beneficiaries": 412803, "outlays_ytd": 2260000000 },
+    { "state": "PA", "beneficiaries": 388119, "outlays_ytd": 2140000000 },
+    { "state": "OH", "beneficiaries": 362448, "outlays_ytd": 2010000000 },
+    { "state": "GA", "beneficiaries": 341202, "outlays_ytd": 1860000000 },
+    { "state": "NC", "beneficiaries": 312844, "outlays_ytd": 1710000000 },
+    { "state": "MI", "beneficiaries": 298021, "outlays_ytd": 1640000000 },
+    { "state": "NJ", "beneficiaries": 271044, "outlays_ytd": 1490000000 },
+    { "state": "VA", "beneficiaries": 248220, "outlays_ytd": 1370000000 },
+    { "state": "WA", "beneficiaries": 232104, "outlays_ytd": 1280000000 },
+    { "state": "AZ", "beneficiaries": 224109, "outlays_ytd": 1210000000 },
+    { "state": "MA", "beneficiaries": 198440, "outlays_ytd": 1100000000 },
+    { "state": "TN", "beneficiaries": 188320, "outlays_ytd": 1040000000 },
+    { "state": "IN", "beneficiaries": 172201, "outlays_ytd": 949000000 },
+    { "state": "MO", "beneficiaries": 168822, "outlays_ytd": 930000000 },
+    { "state": "MD", "beneficiaries": 162403, "outlays_ytd": 895000000 },
+    { "state": "WI", "beneficiaries": 158041, "outlays_ytd": 870000000 }
+  ]
+}

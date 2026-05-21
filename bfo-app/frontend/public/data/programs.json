@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "programs": [
+    { "code": "HCAP", "name": "Health Coverage Access Program", "category": "Healthcare access", "outlays_ytd": 18420000000, "beneficiaries": 3120440, "improper_payment_rate_pct": 2.8, "gao_audit_status": "Clean", "appropriation_pct_executed": 58.4 },
+    { "code": "FAG", "name": "Family Assistance Grant", "category": "Means-tested benefits", "outlays_ytd": 11220000000, "beneficiaries": 2241003, "improper_payment_rate_pct": 4.1, "gao_audit_status": "Open finding — eligibility verification", "appropriation_pct_executed": 60.1 },
+    { "code": "SNB", "name": "Senior Nutrition Benefit", "category": "Means-tested benefits", "outlays_ytd": 7840000000, "beneficiaries": 1488210, "improper_payment_rate_pct": 1.9, "gao_audit_status": "Clean", "appropriation_pct_executed": 55.2 },
+    { "code": "WTS", "name": "Workforce Transition Stipend", "category": "Workforce development", "outlays_ytd": 5210000000, "beneficiaries": 812044, "improper_payment_rate_pct": 3.2, "gao_audit_status": "Clean", "appropriation_pct_executed": 51.8 },
+    { "code": "DCB", "name": "Disability Continuation Benefit", "category": "Means-tested benefits", "outlays_ytd": 4720000000, "beneficiaries": 612301, "improper_payment_rate_pct": 5.4, "gao_audit_status": "Open finding — deceased payee continuation", "appropriation_pct_executed": 62.0 },
+    { "code": "VRA", "name": "Veterans Re-Entry Allowance", "category": "Workforce development", "outlays_ytd": 2840000000, "beneficiaries": 318044, "improper_payment_rate_pct": 2.4, "gao_audit_status": "Clean", "appropriation_pct_executed": 54.0 },
+    { "code": "RHAV", "name": "Rural Health Access Voucher", "category": "Healthcare access", "outlays_ytd": 1620000000, "beneficiaries": 184220, "improper_payment_rate_pct": 6.8, "gao_audit_status": "Open finding — provider eligibility", "appropriation_pct_executed": 49.2 },
+    { "code": "TWC", "name": "Tribal Workforce Compact", "category": "Workforce development", "outlays_ytd": 530000000, "beneficiaries": 78104, "improper_payment_rate_pct": 3.9, "gao_audit_status": "Clean", "appropriation_pct_executed": 47.1 }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "fisma": {
+    "ato_status": "Authorized",
+    "ato_authority": "BFO Authorizing Official",
+    "ato_issued": "2024-09-30",
+    "ato_expires": "2027-09-30",
+    "impact_level": "FedRAMP High",
+    "system_boundary": "BFO ODI Lakehouse — Snowflake GovCloud + Iceberg in BFO-controlled S3 (GovCloud), Fivetran HVR + Connector SDK within authorization boundary."
+  },
+  "continuous_monitoring": {
+    "controls_assessed_30d": 412,
+    "controls_passing_pct": 98.3,
+    "poam_open": 14,
+    "poam_open_critical": 0,
+    "poam_open_high": 2,
+    "last_assessment": "2026-05-18"
+  },
+  "vulnerabilities": [
+    { "severity": "Critical", "open": 3, "mttr_days": 4.2, "sla_days": 7, "sla_compliance_pct": 100.0 },
+    { "severity": "High", "open": 18, "mttr_days": 11.8, "sla_days": 30, "sla_compliance_pct": 96.4 },
+    { "severity": "Medium", "open": 142, "mttr_days": 38.4, "sla_days": 90, "sla_compliance_pct": 91.2 },
+    { "severity": "Low", "open": 412, "mttr_days": 110.4, "sla_days": 180, "sla_compliance_pct": 88.0 }
+  ],
+  "patch_compliance": {
+    "endpoints_total": 18420,
+    "endpoints_compliant_pct": 97.8,
+    "servers_total": 1242,
+    "servers_compliant_pct": 99.4
+  },
+  "dlp_alerts_30d": [
+    { "category": "PII exfiltration attempt", "count": 4, "blocked": 4, "investigated": 4 },
+    { "category": "Privileged-access anomaly", "count": 11, "blocked": 9, "investigated": 11 },
+    { "category": "Off-hours data export", "count": 28, "blocked": 22, "investigated": 28 },
+    { "category": "Unmanaged-endpoint connection", "count": 6, "blocked": 6, "investigated": 6 }
+  ],
+  "iam_reviews": [
+    { "scope": "Privileged accounts (Tier 0)", "accounts": 142, "reviewed_qtd": 142, "removed": 8, "last_review": "2026-04-30" },
+    { "scope": "Iceberg gold-tier readers", "accounts": 318, "reviewed_qtd": 318, "removed": 24, "last_review": "2026-05-12" },
+    { "scope": "Fivetran connector service accounts", "accounts": 47, "reviewed_qtd": 47, "removed": 2, "last_review": "2026-05-15" },
+    { "scope": "External-agency federated readers", "accounts": 88, "reviewed_qtd": 88, "removed": 6, "last_review": "2026-05-10" }
+  ],
+  "audit_log_retention": {
+    "ingest_lag_seconds_p95": 12,
+    "retention_days_hot": 90,
+    "retention_days_archive": 2555,
+    "immutability": "Iceberg time-travel + S3 Object Lock (governance mode)"
+  }
+}

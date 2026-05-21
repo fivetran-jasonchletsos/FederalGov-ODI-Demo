@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "totals": {
+    "flagged_usd_ytd": 2410000000,
+    "recovered_usd_ytd": 612400000,
+    "prevention_avoided_usd_ytd": 1480000000,
+    "cases_under_review": 18420
+  },
+  "schemes": [
+    { "rank": 1, "name": "Synthetic identity at intake", "flagged_usd": 642000000, "recovered_usd": 188000000, "trend_qoq_pct": 14.2, "programs_affected": ["FAG", "HCAP", "WTS"], "description": "Fabricated SSN-name-DOB triples used to file fresh applications. Detection joins BFO intake against Treasury IPP and SSA Death Master plus CISA threat-intel feeds for known synthetic-ID patterns." },
+    { "rank": 2, "name": "Cross-program double-dipping", "flagged_usd": 524000000, "recovered_usd": 162000000, "trend_qoq_pct": 6.8, "programs_affected": ["FAG", "SNB", "DCB"], "description": "Single beneficiary collecting on overlapping means-tested programs across regional offices that historically did not share eligibility state." },
+    { "rank": 3, "name": "Deceased-payee continuation", "flagged_usd": 412000000, "recovered_usd": 121000000, "trend_qoq_pct": -3.1, "programs_affected": ["DCB", "SNB"], "description": "Benefits continuing after beneficiary death. Detection joins payment ledger against SSA Death Master plus state vital-records feeds." },
+    { "rank": 4, "name": "Ineligible-provider claims (RHAV)", "flagged_usd": 318000000, "recovered_usd": 89000000, "trend_qoq_pct": 11.4, "programs_affected": ["RHAV", "HCAP"], "description": "Providers billing the voucher program after license suspension or NPI revocation. Cross-checked against GSA SAM.gov exclusions and CMS feeds." },
+    { "rank": 5, "name": "Address-of-record manipulation", "flagged_usd": 214000000, "recovered_usd": 52400000, "trend_qoq_pct": 4.7, "programs_affected": ["WTS", "VRA"], "description": "Bulk address updates routing benefits to mail drops. Detection clusters by USPS NCOA delta and applies graph rules to identify shared destination addresses." }
+  ],
+  "agent_queue": [
+    { "id": "AGT-2026-01421", "scheme": "Synthetic identity at intake", "case_count": 412, "potential_recovery_usd": 18200000, "recommendation": "Hold disbursement on 412 flagged applications pending Treasury IPP secondary validation. Confidence 0.94.", "state": "awaiting human approval" },
+    { "id": "AGT-2026-01422", "scheme": "Deceased-payee continuation", "case_count": 89, "potential_recovery_usd": 4400000, "recommendation": "Auto-suspend payments on 89 cases matched against SSA Death Master plus two state vital-records feeds. Confidence 0.98.", "state": "queued for approval" },
+    { "id": "AGT-2026-01423", "scheme": "Cross-program double-dipping", "case_count": 1204, "potential_recovery_usd": 12400000, "recommendation": "Route 1,204 multi-program enrollees to Improper Payments Office for eligibility reconciliation. Confidence 0.86.", "state": "in review" },
+    { "id": "AGT-2026-01424", "scheme": "Ineligible-provider claims (RHAV)", "case_count": 28, "potential_recovery_usd": 2100000, "recommendation": "Deny pending claims from 28 providers flagged on GSA SAM.gov exclusion list within last 30 days. Confidence 0.99.", "state": "ready for action" }
+  ]
+}

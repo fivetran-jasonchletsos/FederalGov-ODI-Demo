@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-05-21T08:00:00Z",
+  "summary": {
+    "programs_delivered_ytd": 1842,
+    "trainees_enrolled_ytd": 318044,
+    "certifications_issued_ytd": 184220,
+    "employment_outcome_pct": 64.2,
+    "median_wage_gain_usd": 11400,
+    "roi_ratio": 3.8
+  },
+  "programs": [
+    { "code": "WTS-IT", "name": "Workforce Transition — IT Operations", "enrolled": 41204, "certified": 28104, "employed_180d": 21800, "median_wage_gain_usd": 18400, "roi_ratio": 5.2 },
+    { "code": "WTS-AHC", "name": "Workforce Transition — Allied Healthcare", "enrolled": 38120, "certified": 26404, "employed_180d": 20100, "median_wage_gain_usd": 14200, "roi_ratio": 4.6 },
+    { "code": "WTS-ADM", "name": "Workforce Transition — Skilled Trades", "enrolled": 52440, "certified": 31204, "employed_180d": 23800, "median_wage_gain_usd": 16800, "roi_ratio": 4.9 },
+    { "code": "VRA-CYB", "name": "Veterans Re-Entry — Cybersecurity", "enrolled": 12100, "certified": 8420, "employed_180d": 6900, "median_wage_gain_usd": 22400, "roi_ratio": 6.4 },
+    { "code": "VRA-LOG", "name": "Veterans Re-Entry — Logistics", "enrolled": 14400, "certified": 10220, "employed_180d": 7400, "median_wage_gain_usd": 12100, "roi_ratio": 4.1 },
+    { "code": "TWC-EDU", "name": "Tribal Workforce — Educator Pipeline", "enrolled": 4820, "certified": 2410, "employed_180d": 1620, "median_wage_gain_usd": 8800, "roi_ratio": 2.6 },
+    { "code": "TWC-RNRG", "name": "Tribal Workforce — Renewable Energy", "enrolled": 3210, "certified": 1640, "employed_180d": 1180, "median_wage_gain_usd": 11200, "roi_ratio": 3.1 }
+  ],
+  "trend": [
+    { "period": "FY24 Q1", "employment_pct": 58.1 },
+    { "period": "FY24 Q2", "employment_pct": 59.4 },
+    { "period": "FY24 Q3", "employment_pct": 60.8 },
+    { "period": "FY24 Q4", "employment_pct": 61.2 },
+    { "period": "FY25 Q1", "employment_pct": 62.1 },
+    { "period": "FY25 Q2", "employment_pct": 62.9 },
+    { "period": "FY25 Q3", "employment_pct": 63.4 },
+    { "period": "FY25 Q4", "employment_pct": 63.8 },
+    { "period": "FY26 Q1", "employment_pct": 64.0 },
+    { "period": "FY26 Q2", "employment_pct": 64.2 }
+  ]
+}
