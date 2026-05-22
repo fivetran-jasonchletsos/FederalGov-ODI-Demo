@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api, formatBytes, formatNumber } from '../api/queries';
+import { api, formatBytes, formatNumber, fivetranConnectorUrl } from '../api/queries';
 import type { Pipeline } from '../api/queries';
 
 export default function PipelinePage() {
@@ -17,7 +17,7 @@ export default function PipelinePage() {
       <header className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <div className="eyebrow mb-1">Pipeline Operations</div>
-          <h1 className="font-serif text-3xl text-[var(--ink-strong)]">Connectors, layers, and dbt</h1>
+          <h1 className="font-sans text-3xl text-[var(--ink-strong)]">Connectors, layers, and dbt</h1>
           <p className="mt-2 max-w-3xl text-[var(--ink-muted)] text-sm leading-relaxed">
             Every connector below operates inside the BFO FedRAMP High authorization boundary. The
             ingest path is Fivetran into Iceberg on BFO-controlled S3 in GovCloud. dbt builds four
@@ -26,24 +26,28 @@ export default function PipelinePage() {
         </div>
         <button
           onClick={simulateFailure}
-          className="inline-flex items-center gap-2 rounded-sm px-3 py-2 text-[12px] font-semibold uppercase tracking-wider border border-[var(--red)]/40 text-[var(--red-dim)] bg-[var(--red-bg)] hover:bg-[var(--red)]/20"
+          className="inline-flex items-center gap-2 px-3 py-2 text-[11px] font-bold uppercase tracking-wider border border-[var(--red)]/40 text-[var(--red-dim)] bg-[var(--red-bg)] hover:bg-[var(--red)]/15"
         >
           Simulate connector failure
         </button>
       </header>
 
       <section>
-        <h2 className="font-serif text-xl text-[var(--ink-strong)] mb-3">Connectors</h2>
-        <div className="research-card overflow-hidden">
+        <div className="section-head">
+          <h2 className="font-sans text-xl font-bold text-[var(--ink-strong)]">Connectors</h2>
+        </div>
+        <div className="research-card overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[var(--paper-deep)] text-[var(--ink-soft)] uppercase text-[11px] tracking-wider">
+            <thead className="fed-thead">
               <tr>
                 <th className="text-left px-4 py-2.5">Source</th>
                 <th className="text-left px-4 py-2.5">Type</th>
+                <th className="text-left px-4 py-2.5">Fivetran ID</th>
                 <th className="text-left px-4 py-2.5">Status</th>
                 <th className="text-right px-4 py-2.5">Rows / hr</th>
                 <th className="text-right px-4 py-2.5">Lag</th>
                 <th className="text-left px-4 py-2.5">Boundary</th>
+                <th className="text-left px-4 py-2.5">Fivetran</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--hairline-soft)]">
@@ -53,12 +57,28 @@ export default function PipelinePage() {
                 const cls = status === 'running' ? 'green' : status === 'degraded' ? 'amber' : 'red';
                 return (
                   <tr key={c.name} className="hover:bg-[var(--paper)]">
-                    <td className="px-4 py-2.5 font-serif font-semibold text-[var(--ink-strong)]">{c.name}</td>
-                    <td className="px-4 py-2.5 ticker text-[12px] text-[var(--ink-muted)]">{c.type}</td>
-                    <td className="px-4 py-2.5"><span className={`status-pill ${cls}`}>{status}</span></td>
-                    <td className="px-4 py-2.5 text-right tabular">{formatNumber(c.rows_per_hour)}</td>
-                    <td className="px-4 py-2.5 text-right tabular text-[var(--ink-muted)]">{isFailed ? '—' : `${c.lag_seconds}s`}</td>
-                    <td className="px-4 py-2.5 ticker text-[11px] text-[var(--ink-soft)]">{c.boundary}</td>
+                    <td className="px-4 py-3 font-sans font-semibold text-[var(--ink-strong)] text-sm">{c.name}</td>
+                    <td className="px-4 py-3 ticker text-[11px] text-[var(--ink-muted)]">{c.type}</td>
+                    <td className="px-4 py-3">
+                      <span className="fivetran-id-chip">{c.fivetran_id}</span>
+                    </td>
+                    <td className="px-4 py-3"><span className={`status-pill ${cls}`}>{status}</span></td>
+                    <td className="px-4 py-3 text-right tabular text-sm">{formatNumber(c.rows_per_hour)}</td>
+                    <td className="px-4 py-3 text-right tabular text-[var(--ink-muted)] text-sm">{isFailed ? '—' : `${c.lag_seconds}s`}</td>
+                    <td className="px-4 py-3 ticker text-[11px] text-[var(--ink-soft)]">{c.boundary}</td>
+                    <td className="px-4 py-3">
+                      <a
+                        href={fivetranConnectorUrl(c.fivetran_id)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="fivetran-cta"
+                      >
+                        Open in Fivetran
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-2.5 w-2.5 shrink-0" aria-hidden>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2 10L10 2M5 2h5v5" />
+                        </svg>
+                      </a>
+                    </td>
                   </tr>
                 );
               })}
@@ -79,13 +99,15 @@ export default function PipelinePage() {
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <h2 className="font-serif text-xl text-[var(--ink-strong)] mb-3">Layers</h2>
+          <div className="section-head">
+            <h2 className="font-sans text-xl font-bold text-[var(--ink-strong)]">Layers</h2>
+          </div>
           <div className="space-y-3">
             {(pipeline?.layers ?? []).map((l) => (
               <div key={l.layer} className="research-card p-4">
                 <div className="flex items-center justify-between">
-                  <div className="font-serif font-semibold text-[var(--ink-strong)]">{l.layer}</div>
-                  <div className="ticker text-[12px] text-[var(--ink-soft)]">{formatNumber(l.tables)} tables</div>
+                  <div className="font-sans font-semibold text-[var(--ink-strong)]">{l.layer}</div>
+                  <div className="ticker text-[11px] text-[var(--ink-soft)]">{formatNumber(l.tables)} tables</div>
                 </div>
                 <div className="mt-1 grid grid-cols-2 gap-3 text-[12px] text-[var(--ink-muted)]">
                   <div><span className="text-[var(--ink-soft)]">Rows</span> <span className="tabular text-[var(--ink-strong)]">{formatNumber(l.rows)}</span></div>
@@ -97,7 +119,9 @@ export default function PipelinePage() {
         </div>
 
         <div>
-          <h2 className="font-serif text-xl text-[var(--ink-strong)] mb-3">dbt runs, last 24 hours</h2>
+          <div className="section-head">
+            <h2 className="font-sans text-xl font-bold text-[var(--ink-strong)]">dbt runs, last 24 hours</h2>
+          </div>
           <div className="space-y-3">
             {(pipeline?.dbt_runs_24h ?? []).map((r) => {
               const cls = r.status === 'success' ? 'green' : r.status === 'success_with_warnings' ? 'amber' : 'red';

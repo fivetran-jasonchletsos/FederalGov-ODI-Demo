@@ -114,9 +114,23 @@ export interface Mission {
   congressional_reporting: { report: string; due: string; status: string }[];
 }
 export interface Pipeline {
-  connectors: { name: string; type: string; status: string; rows_per_hour: number; lag_seconds: number; boundary: string; incident?: string }[];
+  connectors: {
+    name: string;
+    type: string;
+    status: string;
+    rows_per_hour: number;
+    lag_seconds: number;
+    boundary: string;
+    fivetran_id: string;
+    incident?: string;
+  }[];
   layers: { layer: string; tables: number; rows: number; size_bytes: number; last_built: string }[];
   dbt_runs_24h: { run_id: string; status: string; models: number; duration_seconds: number; tests_passed: number; tests_failed: number; warnings?: string[] }[];
+}
+
+/** Returns the Fivetran dashboard deep link for a given connector ID. */
+export function fivetranConnectorUrl(fivetranId: string): string {
+  return `https://fivetran.com/dashboard/connectors/${fivetranId}`;
 }
 export interface Iceberg {
   catalog: string;

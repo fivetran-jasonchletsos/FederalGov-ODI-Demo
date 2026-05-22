@@ -99,10 +99,12 @@ export default function ArchitecturePage() {
 
       {/* Iceberg tables */}
       <section>
-        <h2 className="font-serif text-2xl text-[var(--ink-strong)] mb-4">Iceberg tables in the gold tier</h2>
-        <div className="research-card overflow-hidden">
+        <div className="section-head">
+          <h2 className="font-sans text-2xl font-bold text-[var(--ink-strong)]">Iceberg tables — gold tier</h2>
+        </div>
+        <div className="research-card overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[var(--paper-deep)] text-[var(--ink-soft)] uppercase text-[11px] tracking-wider">
+            <thead className="fed-thead">
               <tr>
                 <th className="text-left px-4 py-2.5">Namespace</th>
                 <th className="text-left px-4 py-2.5">Table</th>
@@ -115,23 +117,25 @@ export default function ArchitecturePage() {
             <tbody className="divide-y divide-[var(--hairline-soft)]">
               {(iceberg?.tables ?? []).map((t) => (
                 <tr key={`${t.namespace}.${t.name}`} className="hover:bg-[var(--paper)]">
-                  <td className="px-4 py-2.5 ticker text-[var(--ink-soft)]">{t.namespace}</td>
-                  <td className="px-4 py-2.5 font-serif font-semibold text-[var(--ink-strong)]">{t.name}</td>
+                  <td className="px-4 py-2.5 ticker text-[11px] text-[var(--ink-soft)]">{t.namespace}</td>
+                  <td className="px-4 py-2.5 font-sans font-semibold text-[var(--ink-strong)]">{t.name}</td>
                   <td className="px-4 py-2.5 text-right tabular">{formatNumber(t.rows)}</td>
                   <td className="px-4 py-2.5 text-right tabular text-[var(--ink-muted)]">{formatBytes(t.size_bytes)}</td>
-                  <td className="px-4 py-2.5 text-[var(--ink-muted)] ticker text-[12px]">{t.partition}</td>
-                  <td className="px-4 py-2.5 text-[var(--ink-muted)] ticker text-[12px]">{new Date(t.last_compaction).toISOString().slice(0, 16).replace('T', ' ')}Z</td>
+                  <td className="px-4 py-2.5 text-[var(--ink-muted)] ticker text-[11px]">{t.partition}</td>
+                  <td className="px-4 py-2.5 text-[var(--ink-muted)] ticker text-[11px]">{new Date(t.last_compaction).toISOString().slice(0, 16).replace('T', ' ')}Z</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {iceberg && <p className="mt-3 text-[12px] text-[var(--ink-soft)]">Catalog: {iceberg.catalog}. Boundary: {iceberg.boundary}.</p>}
+        {iceberg && <p className="mt-3 text-[11px] text-[var(--ink-soft)] ticker">Catalog: {iceberg.catalog}. Boundary: {iceberg.boundary}.</p>}
       </section>
 
       {/* dbt layers */}
       <section>
-        <h2 className="font-serif text-2xl text-[var(--ink-strong)] mb-4">dbt build layers</h2>
+        <div className="section-head">
+          <h2 className="font-sans text-2xl font-bold text-[var(--ink-strong)]">dbt build layers</h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {(pipeline?.layers ?? []).map((l) => (
             <div key={l.layer} className="research-card p-4">
