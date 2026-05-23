@@ -8,6 +8,7 @@ const NAV_ITEMS: [string, string][] = [
   ['/security', 'FISMA & Security'],
   ['/architecture', 'ODI Architecture'],
   ['/pipeline', 'Pipeline'],
+  ['/dbt-wizard/scenario', 'dbt-wizard'],
   ['/policy', 'Policy Brief'],
   ['/about', 'About'],
 ];
@@ -146,9 +147,23 @@ export default function Layout() {
           </div>
         </div>
         <div className="border-t border-white/10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 text-[11px] text-white/50 flex flex-col sm:flex-row gap-1 sm:items-center sm:justify-between">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 text-[11px] text-white/50 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
             <div>© 2026 BFO ODI Reference Build, Fivetran Open Data Infrastructure</div>
-            <div>Synthetic data, demonstration only</div>
+            <div className="flex items-center gap-3">
+              <span>Synthetic data, demonstration only</span>
+              <a
+                href={`${import.meta.env.BASE_URL?.replace(/\/$/, '')}/BFO-3min-Demo-Runbook.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2 py-0.5 border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-colors"
+                style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em' }}
+              >
+                3-min Runbook
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-2.5 w-2.5 shrink-0" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2 10L10 2M5 2h5v5" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

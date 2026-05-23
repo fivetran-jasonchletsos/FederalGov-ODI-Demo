@@ -1,0 +1,116 @@
+{
+  "events": [
+    {
+      "from": "explorer",
+      "step": 1,
+      "step_label": "Discovery",
+      "body": "Running status against the dbt project. Project parses clean — 18 models, 94 tests, last refresh 06:00 EST.",
+      "side_effect": "tool:status returned ok · 18 models · 94 tests"
+    },
+    {
+      "from": "explorer",
+      "step": 1,
+      "step_label": "Discovery",
+      "body": "Running search for 'improper payment', 'recovery', 'office tier', 'vendor match', 'SAM.gov', 'fiscal quarter', 'program code'. Four upstream models surface: fct_improper_payment, fct_vendor_match, dim_program_office, dim_fiscal_calendar.",
+      "side_effect": "tool:search matched fct_improper_payment, fct_vendor_match, dim_program_office, dim_fiscal_calendar"
+    },
+    {
+      "from": "summary",
+      "step": 2,
+      "step_label": "Schema Understanding",
+      "body": "Running describe on each candidate. fct_improper_payment is payment-grain with payment_date, program_code, office_tier, recovery_status, recovery_amount. fct_vendor_match has sam_entity_status and debarment_flag keyed on payment_id and vendor_id — this is what drives the automated recovery trigger. dim_program_office carries the office_tier classification (1 through 4) and recovery_target_pct. dim_fiscal_calendar provides fiscal_quarter and fiscal_year for the YoY comparison.",
+      "side_effect": "tool:describe returned grain=payment_id on fct_improper_payment · grain=payment_id·vendor_id on fct_vendor_match · grain=program_code on dim_program_office · grain=date_day on dim_fiscal_calendar"
+    },
+    {
+      "from": "summary",
+      "step": 2,
+      "step_label": "Schema Understanding",
+      "body": "Running lineage. Join path is clean: payments join vendor_match on payment_id, program offices attach via program_code, fiscal calendar attaches via payment_date. Gap confirmed — no model aggregates recovery to (office_tier, program_code, fiscal_quarter). That is exactly what gold.fct_recovery_by_office_tier_program_quarter needs to be.",
+      "side_effect": "tool:lineage validated join path · gap confirmed at tier-program-quarter grain"
+    },
+    {
+      "from": "worker",
+      "step": 3,
+      "step_label": "Data Inspection",
+      "body": "Spinning up an XS warehouse and running dbt_show on Q2 FY2026 sliced by office_tier. Tier-3 recovery rate: 61% vs prior-year 79% — an 18-point YoY drop confirmed. Tier-1 recovery rate: 94%, matching target. The data supports the CIO's question exactly. Grain is viable.",
+      "side_effect": "tool:warehouse start XS · tool:dbt_show Q2 slice by office_tier · tier-3 drop 61% vs 79% confirmed · tier-1 94% on target"
+    },
+    {
+      "from": "worker",
+      "step": 4,
+      "step_label": "Model Creation",
+      "body": "Authoring models/gold/fct_recovery_by_office_tier_program_quarter.sql. Writing the config block first — table materialization, gold schema, tags improper_payment and ai_built.",
+      "code_target": "sql",
+      "code_append": "{{ config(materialized='table', schema='gold', tags=['improper_payment', 'ai_built']) }}\n\n"
+    },
+    {
+      "from": "worker",
+      "step": 4,
+      "step_label": "Model Creation",
+      "body": "Writing the header docblock so downstream readers know what this model is and who built it.",
+      "code_target": "sql",
+      "code_append": "-- gold.fct_recovery_by_office_tier_program_quarter\n-- Improper-payment recovery rates rolled up to\n-- (office_tier, program_code, fiscal_quarter, fiscal_year)\n-- Built live by dbt-wizard sub-agents in response to CIO escalation\n-- Sources: fct_improper_payment + fct_vendor_match + dim_program_office + dim_fiscal_calendar\n\n"
+    },
+    {
+      "from": "worker",
+      "step": 4,
+      "step_label": "Model Creation",
+      "body": "Anchoring the payments CTE with vendor-match join — the sam_entity_status field is what gates automated recovery eligibility. Tier-3 offices route through this feed exclusively.",
+      "code_target": "sql",
+      "code_append": "with payments_with_vendor as (\n    select\n        p.payment_id,\n        p.payment_date,\n        p.program_code,\n        p.office_tier,\n        p.recovery_status,\n        p.recovery_amount,\n        v.sam_entity_status,\n        v.last_verified_date\n    from {{ ref('fct_improper_payment') }} p\n    left join {{ ref('fct_vendor_match') }} v\n        on v.payment_id = p.payment_id\n),\n\n"
+    },
+    {
+      "from": "worker",
+      "step": 4,
+      "step_label": "Model Creation",
+      "body": "Joining the fiscal calendar and program office dimensions to get quarter labels and recovery targets.",
+      "code_target": "sql",
+      "code_append": "with_dimensions as (\n    select\n        pw.*,\n        cal.fiscal_quarter,\n        cal.fiscal_year,\n        po.office_tier_label,\n        po.recovery_target_pct,\n        po.bureau_division\n    from payments_with_vendor pw\n    join {{ ref('dim_fiscal_calendar') }} cal\n        on cal.date_day = pw.payment_date\n    join {{ ref('dim_program_office') }} po\n        on po.program_code = pw.program_code\n)\n\n"
+    },
+    {
+      "from": "worker",
+      "step": 4,
+      "step_label": "Model Creation",
+      "body": "Final SELECT — one row per (office_tier, program_code, fiscal_quarter, fiscal_year). Payment count, recovery amount, recovery rate, and variance against target.",
+      "code_target": "sql",
+      "code_append": "select\n    office_tier,\n    office_tier_label,\n    program_code,\n    bureau_division,\n    fiscal_quarter,\n    fiscal_year,\n    count(*) as improper_payment_count,\n    sum(recovery_amount) as total_recovery_usd,\n    avg(case when recovery_status = 'recovered' then 1.0 else 0.0 end)\n        as recovery_rate,\n    max(recovery_target_pct) as recovery_target_pct,\n    avg(case when recovery_status = 'recovered' then 1.0 else 0.0 end)\n        - max(recovery_target_pct)\n        as recovery_vs_target\nfrom with_dimensions\ngroup by 1, 2, 3, 4, 5, 6\norder by fiscal_year desc, fiscal_quarter desc, office_tier, program_code\n"
+    },
+    {
+      "from": "verification",
+      "step": 5,
+      "step_label": "Test Authoring",
+      "body": "Writing the YAML companion. Description first, then the schema contract — every column gets a type so downstream OIG consumers can resolve it without ambiguity.",
+      "code_target": "yaml",
+      "code_append": "version: 2\n\nmodels:\n  - name: fct_recovery_by_office_tier_program_quarter\n    description: |\n      Improper-payment recovery rates aggregated to\n      (office_tier, program_code, fiscal_quarter, fiscal_year).\n      Denominator is all improper payments in the period.\n      Built by dbt-wizard sub-agents on 2026-05-23\n      in response to CIO escalation on tier-3 Q2 recovery shortfall.\n    config:\n      contract:\n        enforced: true\n      tags: [improper_payment, ai_built]\n      meta:\n        owner: program_integrity_analytics\n        built_by: dbt-wizard\n        consumes: [fct_improper_payment, fct_vendor_match, dim_program_office, dim_fiscal_calendar]\n\n"
+    },
+    {
+      "from": "verification",
+      "step": 5,
+      "step_label": "Test Authoring",
+      "body": "Adding column-level tests. Uniqueness on the composite key (office_tier, program_code, fiscal_quarter, fiscal_year). Not-null on recovery_rate and improper_payment_count. Accepted values on office_tier to catch tier taxonomy drift.",
+      "code_target": "yaml",
+      "code_append": "    columns:\n      - name: office_tier\n        data_type: varchar\n        tests:\n          - not_null\n          - accepted_values:\n              values: ['1', '2', '3', '4']\n      - name: program_code\n        data_type: varchar\n        tests:\n          - not_null\n      - name: fiscal_quarter\n        data_type: varchar\n        tests:\n          - not_null\n      - name: fiscal_year\n        data_type: number\n        tests:\n          - not_null\n      - name: improper_payment_count\n        data_type: number\n        tests:\n          - not_null\n      - name: total_recovery_usd\n        data_type: number\n      - name: recovery_rate\n        data_type: number\n        tests:\n          - not_null\n      - name: recovery_target_pct\n        data_type: number\n      - name: recovery_vs_target\n        data_type: number\n\n    tests:\n      - dbt_utils.unique_combination_of_columns:\n          combination_of_columns: [office_tier, program_code, fiscal_quarter, fiscal_year]\n"
+    },
+    {
+      "from": "verification",
+      "step": 5,
+      "step_label": "Test Authoring",
+      "body": "Running dbt_show on the compiled model against Q2 FY2026. All column tests resolve clean. Schema contract enforces. Tier-3 recovery rate 61% vs tier-1 94% is visible in the first rows — the 18-point gap the CIO flagged is confirmed in the production data.",
+      "side_effect": "tool:dbt_show compiled · tests:passed · contract:enforced · tier-3 61% vs tier-1 94% confirmed"
+    },
+    {
+      "from": "worker",
+      "step": 6,
+      "step_label": "Materialization",
+      "body": "Materializing gold.fct_recovery_by_office_tier_program_quarter to Iceberg on GovCloud S3 via the Snowflake dbt adapter. Writing Parquet files to the gold prefix. Registering with the Polaris catalog.",
+      "side_effect": "tool:dbt_run materialized 1 model · 312 rows · 0.03 GB · 8.2s"
+    },
+    {
+      "from": "verification",
+      "step": 6,
+      "step_label": "Materialization",
+      "body": "Running lineage one more time. Four upstreams attached. Downstream consumers — OIG briefing dashboard, OMB MAX reporting feed, Treasury IPP reconciliation, Snowflake direct queries — can now resolve the new gold table on their next pass. The CIO's question has a production asset behind it.",
+      "side_effect": "tool:lineage updated · downstream consumers notified · 18 models → 19 models"
+    }
+  ]
+}

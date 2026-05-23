@@ -131,6 +131,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* dbt-wizard hero */}
+      <section className="research-card p-6 border-l-4" style={{ borderLeftColor: 'var(--navy)' }}>
+        <div className="eyebrow">dbt-wizard · on-demand gold model authoring</div>
+        <h2 className="mt-2 text-2xl font-bold text-[var(--ink-strong)] leading-tight">
+          The CIO asks why tier-3 recovery slipped 18% YoY. No gold model exists. OIG briefing in 18 hours.
+        </h2>
+        <p className="mt-2 text-sm text-[var(--ink-muted)] leading-relaxed max-w-4xl">
+          Four sub-agents map the upstream gold tables, author
+          <span className="font-mono text-xs mx-1">gold.fct_recovery_by_office_tier_program_quarter</span>
+          with full tests and schema contract, and materialize it to Iceberg in 90 seconds.
+          Manual ETA: 3 to 5 days. At risk: $28M annualized recovery shortfall.
+        </p>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="research-card p-4" style={{ borderTop: '3px solid var(--red)' }}>
+            <div className="eyebrow mb-1">Without dbt-wizard</div>
+            <div className="text-2xl font-bold text-[var(--red)]">3–5 days</div>
+            <div className="font-mono text-xs text-[var(--ink-muted)] mt-1">OIG briefing without the answer</div>
+          </div>
+          <div className="research-card p-4" style={{ borderTop: '3px solid var(--green)' }}>
+            <div className="eyebrow mb-1">With dbt-wizard</div>
+            <div className="text-2xl font-bold text-[var(--green)]">90 seconds</div>
+            <div className="font-mono text-xs text-[var(--ink-muted)] mt-1">Root cause in hand 18 hours early</div>
+          </div>
+          <div className="research-card p-4" style={{ borderTop: '3px solid var(--amber)' }}>
+            <div className="eyebrow mb-1">Recovery at risk</div>
+            <div className="text-2xl font-bold text-[var(--amber)]">$28M</div>
+            <div className="font-mono text-xs text-[var(--ink-muted)] mt-1">Annualized shortfall · tier-3 offices</div>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2 items-center">
+          <Link
+            to="/dbt-wizard/scenario"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-bold text-white hover:opacity-90 transition-opacity"
+            style={{ background: 'var(--navy)', fontSize: 13 }}
+          >
+            See the scenario
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <Link to="/dbt-wizard/live" className="status-pill navy">Watch the live build</Link>
+          <Link to="/dbt-wizard/outcome" className="status-pill neutral">See the outcome</Link>
+        </div>
+      </section>
+
       {/* Footer call-out */}
       <section className="research-card p-6 border-l-4" style={{ borderLeftColor: 'var(--red)' }}>
         <div className="eyebrow">How this dashboard exists</div>

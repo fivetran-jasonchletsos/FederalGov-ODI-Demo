@@ -155,6 +155,30 @@ export default function PipelinePage() {
           same files. No data leaves the boundary, and no engine holds a private copy.
         </p>
       </section>
+
+      <section className="research-card p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ borderLeft: '4px solid var(--navy)' }}>
+        <div>
+          <div className="eyebrow mb-1">Fivetran · Connector Console</div>
+          <div className="font-sans text-lg font-bold text-[var(--ink-strong)]">Inspect live connectors in Fivetran</div>
+          <p className="text-sm text-[var(--ink-muted)] mt-0.5">
+            View sync history, schema changes, re-sync controls, and column-level observability.
+            All connectors operate within the BFO FedRAMP High boundary.
+          </p>
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <a
+            href="https://fivetran.com/dashboard/connections"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fivetran-cta text-sm py-2.5 px-5"
+          >
+            <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M2 7h10M7 2l5 5-5 5" />
+            </svg>
+            Open in Fivetran
+          </a>
+        </div>
+      </section>
     </div>
   );
 }

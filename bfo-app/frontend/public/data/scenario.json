@@ -1,0 +1,46 @@
+{
+  "company": "Bureau of Federal Outcomes",
+  "request_id": "BLD-2026-05-23-0014",
+  "requested_by": "Bureau CIO",
+  "requested_at": "2026-05-23T08:15:00-05:00",
+  "timezone_label": "Friday 08:15 EST",
+  "question": "Why did improper-payment recovery slip 18% YoY for tier-3 program offices in Q2, while tier-1 hit target?",
+  "metric_label": "Recovery by office tier, program, and quarter",
+  "metric_code": "gold.fct_recovery_by_office_tier_program_quarter",
+  "sop_meeting_at": "2026-05-24T02:15:00-05:00",
+  "sop_meeting_label": "Saturday 02:15 EST · OIG Briefing",
+  "target_schema": "gold",
+  "target_model": "fct_recovery_by_office_tier_program_quarter",
+  "target_grain": "one row per (office_tier, program_code, fiscal_quarter)",
+  "prior_crisis_id": "INC-2026-04-30-0008",
+  "office_tier": "Tier-3",
+  "program_office": "Benefits Integrity",
+  "upstream_models": [
+    {
+      "model": "gold.fct_improper_payment",
+      "layer": "gold",
+      "grain": "payment_id",
+      "description": "Improper payment records from Treasury IPP feed via Fivetran CDC. Includes payment_date, program_code, office_tier, recovery_status, and recovery_amount."
+    },
+    {
+      "model": "gold.fct_vendor_match",
+      "layer": "gold",
+      "grain": "payment_id · vendor_id",
+      "description": "Vendor-match lookup from SAM.gov feed. Includes sam_entity_status, debarment_flag, and last_verified_date. Drives the automated recovery trigger."
+    },
+    {
+      "model": "gold.dim_program_office",
+      "layer": "gold",
+      "grain": "program_code",
+      "description": "Program office master with office_tier classification (1-4), bureau_division, and recovery_target_pct. Joins to fct_improper_payment to split tier analysis."
+    },
+    {
+      "model": "gold.dim_fiscal_calendar",
+      "layer": "gold",
+      "grain": "date_day",
+      "description": "Federal fiscal calendar with fiscal_quarter, fiscal_year, and quarter_start/end dates. Required for Q2 YoY comparison against prior-year snapshot."
+    }
+  ],
+  "manual_time_days": "3 to 5 days",
+  "build_room_seconds": 90
+}

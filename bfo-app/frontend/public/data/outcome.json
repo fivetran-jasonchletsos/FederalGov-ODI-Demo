@@ -1,0 +1,104 @@
+{
+  "materialized_model": "gold.fct_recovery_by_office_tier_program_quarter",
+  "row_count": 312,
+  "tests_passed": 9,
+  "tests_written": "7 column-level + 1 combination + 1 not-null on recovery_rate",
+  "build_seconds": 90,
+  "before": {
+    "nodes": [
+      { "id": "fct_improper_payment", "name": "gold.fct_improper_payment", "layer": "gold" },
+      { "id": "fct_vendor_match",     "name": "gold.fct_vendor_match",     "layer": "gold" },
+      { "id": "dim_program_office",   "name": "gold.dim_program_office",   "layer": "gold" },
+      { "id": "dim_fiscal_calendar",  "name": "gold.dim_fiscal_calendar",  "layer": "gold" },
+      { "id": "gap", "name": "gold.fct_recovery_by_office_tier_program_quarter", "layer": "gap", "built": false }
+    ],
+    "edges": [
+      { "from": "fct_improper_payment", "to": "gap" },
+      { "from": "fct_vendor_match",     "to": "gap" },
+      { "from": "dim_program_office",   "to": "gap" },
+      { "from": "dim_fiscal_calendar",  "to": "gap" }
+    ]
+  },
+  "after": {
+    "nodes": [
+      { "id": "fct_improper_payment", "name": "gold.fct_improper_payment", "layer": "gold" },
+      { "id": "fct_vendor_match",     "name": "gold.fct_vendor_match",     "layer": "gold" },
+      { "id": "dim_program_office",   "name": "gold.dim_program_office",   "layer": "gold" },
+      { "id": "dim_fiscal_calendar",  "name": "gold.dim_fiscal_calendar",  "layer": "gold" },
+      { "id": "new_gold", "name": "gold.fct_recovery_by_office_tier_program_quarter", "layer": "gold", "built": true, "new": true },
+      { "id": "oig_dash",     "name": "OIG Briefing Dashboard",        "layer": "consumer" },
+      { "id": "omb_feed",     "name": "OMB MAX Reporting Feed",        "layer": "consumer" }
+    ],
+    "edges": [
+      { "from": "fct_improper_payment", "to": "new_gold" },
+      { "from": "fct_vendor_match",     "to": "new_gold" },
+      { "from": "dim_program_office",   "to": "new_gold" },
+      { "from": "dim_fiscal_calendar",  "to": "new_gold" },
+      { "from": "new_gold", "to": "oig_dash" },
+      { "from": "new_gold", "to": "omb_feed" }
+    ]
+  },
+  "root_cause": {
+    "headline": "Tier-3 offices share a vendor-match feed that paused 11 days during a SAM.gov downtime in March; backfill did not run automatically.",
+    "detail": "SAM.gov experienced an API outage from March 4 through March 15. The Fivetran connector for the vendor-match feed paused correctly. However, the backfill job that re-processes payments queued during the outage was not triggered automatically on reconnect. Tier-3 program offices route 100% of their recovery decisions through this feed — no SAM.gov match, no recovery action. Tier-1 offices have a secondary manual review path that bypassed the dependency entirely, which is why they hit target.",
+    "affected_cohort": "Tier-3 program offices with payments dated March 4 – March 15",
+    "fallout_count": 847,
+    "total_reviewed": 1102
+  },
+  "without_wizard": {
+    "label": "Without dbt-wizard",
+    "summary": "Question enters the analytics backlog. OIG briefing proceeds without the answer.",
+    "metrics": [
+      { "label": "Time to model",       "value": "3 to 5 days" },
+      { "label": "Engineer hours",      "value": "8 to 16h" },
+      { "label": "Tests written",       "value": "ad-hoc" },
+      { "label": "Lineage entries",     "value": "manual" },
+      { "label": "Documentation",       "value": "PR-time only" },
+      { "label": "OIG briefing status", "value": "no answer" }
+    ],
+    "narrative": [
+      "CIO files the request. It enters the analytics backlog at priority A.",
+      "Data engineer scopes the work Monday — after the OIG briefing has already occurred.",
+      "Engineer writes SQL from scratch, joining four gold marts by hand.",
+      "Tests, YAML, and contract get bolted on at PR time, if at all.",
+      "OIG briefing proceeds with narrative context only, no data to support recovery action.",
+      "$28M annualized recovery shortfall persists without a remediation plan."
+    ]
+  },
+  "with_wizard": {
+    "label": "With dbt-wizard",
+    "summary": "Four sub-agents surface the upstreams, author the SQL, write the tests, and materialize the asset in 90 seconds.",
+    "metrics": [
+      { "label": "Time to model",       "value": "90 seconds" },
+      { "label": "Engineer hours",      "value": "0.0h authored" },
+      { "label": "Tests written",       "value": "7 column + 1 combination + 1 not-null" },
+      { "label": "Lineage entries",     "value": "auto, 4 upstream" },
+      { "label": "Documentation",       "value": "in YAML on materialize" },
+      { "label": "OIG briefing status", "value": "root cause in hand" }
+    ],
+    "narrative": [
+      "Explorer runs status and search. Returns the four gold upstream candidates.",
+      "Summary runs describe and lineage. Confirms join path and names the new grain.",
+      "Worker runs dbt_show on Q2 slice by tier. Validates the 18-point gap.",
+      "Worker authors fct_recovery_by_office_tier_program_quarter.sql with CTEs and final SELECT.",
+      "Verification writes the YAML — description, schema contract, 9 tests, ownership.",
+      "Worker materializes the table to Iceberg. Verification confirms downstream lineage.",
+      "CIO presents root-cause finding to OIG 18 hours ahead of schedule."
+    ]
+  },
+  "governance": [
+    { "label": "Tests written",             "value": "7 column-level + 1 combination + 1 not-null" },
+    { "label": "Schema contract",           "value": "enforced on materialize" },
+    { "label": "Lineage upstreams",         "value": "4 declared, 4 validated" },
+    { "label": "Documentation",             "value": "auto-written in YAML" },
+    { "label": "Ownership",                 "value": "program_integrity_analytics" },
+    { "label": "Tag",                       "value": "ai_built · improper_payment" },
+    { "label": "Iceberg table format",      "value": "v2 · Parquet · ZSTD" },
+    { "label": "Open Catalog registration", "value": "complete" }
+  ],
+  "hero": {
+    "label": "Root cause identified 18 hours before the OIG briefing — restart the backfill, not a process redesign.",
+    "value": "90 seconds",
+    "note": "From CIO question to materialized Iceberg gold table — versioned, tested, documented, lineage-tracked. The tier-3 shortfall traces to an 11-day SAM.gov outage in March where the backfill job did not auto-restart. The fix is operational, not structural: trigger the backfill, recover the 847 queued payments, and close the $28M annualized gap."
+  }
+}
