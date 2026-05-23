@@ -44,7 +44,7 @@
       "rows_per_hour": 14200,
       "lag_seconds": 60,
       "boundary": "BFO ATO",
-      "fivetran_id": "witnessed_rheumatism"
+      "fivetran_id": "perpetuate_fluid"
     },
     {
       "name": "Treasury IPP improper-payment feed",
@@ -53,7 +53,7 @@
       "rows_per_hour": 8800,
       "lag_seconds": 90,
       "boundary": "BFO ATO",
-      "fivetran_id": "clue_expressive"
+      "fivetran_id": "grain_neural"
     },
     {
       "name": "CISA threat-intelligence feed",
@@ -62,7 +62,7 @@
       "rows_per_hour": 41000,
       "lag_seconds": 30,
       "boundary": "BFO ATO",
-      "fivetran_id": "versus_bat"
+      "fivetran_id": "inquiries_mortified"
     },
     {
       "name": "USPS NCOA address feed",
@@ -71,7 +71,7 @@
       "rows_per_hour": 22000,
       "lag_seconds": 412,
       "boundary": "BFO ATO",
-      "fivetran_id": "diagnosed_share",
+      "fivetran_id": "lifter_beaches",
       "incident": "Source endpoint TLS rotation, recovery in progress."
     }
   ],
