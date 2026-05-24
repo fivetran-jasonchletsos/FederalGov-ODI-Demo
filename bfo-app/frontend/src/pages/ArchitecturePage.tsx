@@ -1,6 +1,32 @@
 import { useEffect, useState } from 'react';
 import { api, formatBytes, formatNumber } from '../api/queries';
 import type { Iceberg, Pipeline } from '../api/queries';
+import { AliveMedallion, type SourceNode, type EngineNode, type ConsumerRole } from '../components/AliveMedallion';
+
+// Federal civilian — benefits, improper payments, FISMA. Mirrors the
+// Clarity / Verity / Altavest mapping so AliveMedallion renders the same
+// SOURCES / LAKEHOUSE / CONSUMERS triptych with federal copy.
+const FED_SOURCES: SourceNode[] = [
+  { id: 'ben',   label: 'Benefits Eligibility', sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '52s lag',  status: 'healthy' },
+  { id: 'case',  label: 'Case Management',      sub: 'Oracle LogMiner',         logo: 'oracle',    freshness: '3 min lag', status: 'healthy' },
+  { id: 'feed',  label: 'Federal Data Feed',    sub: 'Real-time event stream', logo: 'hl7',       freshness: 'live',      status: 'healthy', streaming: true },
+  { id: 'audit', label: 'OIG / GAO Audits',     sub: 'Quarterly regulatory',   logo: 'cms',       freshness: '14d lag',   status: 'healthy' },
+];
+
+const FED_ENGINES: EngineNode[] = [
+  { name: 'Snowflake', active: true, logo: 'snowflake' },
+  { name: 'Athena',                  logo: 'athena' },
+  { name: 'DuckDB',                  logo: 'duckdb' },
+  { name: 'Trino',                   logo: 'trino' },
+  { name: 'Spark',                   logo: 'spark' },
+];
+
+const FED_ROLES: ConsumerRole[] = [
+  { label: 'Program Officers', sub: 'eligibility & throughput' },
+  { label: 'Investigators',    sub: 'fraud & improper payments' },
+  { label: 'Auditors',         sub: 'GAO & IG ready' },
+  { label: 'IT Security',      sub: 'FISMA & ATO' },
+];
 
 const SOURCES = [
   { name: 'BENS Mainframe', subtitle: 'Cobol-era benefits engine', connector: 'Fivetran HVR (CDC)', color: '#1a365d' },
@@ -21,6 +47,16 @@ export default function ArchitecturePage() {
     api.pipeline().then(setPipeline);
   }, []);
 
+  // Roll the live pipeline.layers into LayerStat-shaped objects for the
+  // AliveMedallion cylinders. If the snapshot hasn't landed yet, fall back
+  // to representative numbers so the diagram still renders cleanly.
+  const layerStat = (name: 'bronze' | 'silver' | 'gold', fallback: { tables: number; rows: number; bytes: number }) => {
+    const row = pipeline?.layers?.find((l) => l.layer.toLowerCase() === name);
+    return row
+      ? { tables: row.tables, rows: row.rows, bytes: row.size_bytes }
+      : fallback;
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       <header>
@@ -33,6 +69,23 @@ export default function ArchitecturePage() {
           same governed gold layer.
         </p>
       </header>
+
+      {/* Alive medallion — three-zone SOURCES / LAKEHOUSE / CONSUMERS view */}
+      <section className="research-card p-6">
+        <div className="eyebrow mb-1">Data Flow</div>
+        <h2 className="font-serif text-2xl font-semibold text-[var(--ink-strong)] mb-6">
+          From four federal source systems to one governed gold layer
+        </h2>
+        <AliveMedallion
+          sources={FED_SOURCES}
+          bronze={layerStat('bronze', { tables: 9, rows: 42_180_000, bytes: 14_200_000_000 })}
+          silver={layerStat('silver', { tables: 6, rows: 28_140_000, bytes: 8_400_000_000 })}
+          gold={layerStat('gold',     { tables: 8, rows: 12_460_000, bytes: 2_980_000_000 })}
+          engines={FED_ENGINES}
+          roles={FED_ROLES}
+          accent="#c9851a"
+        />
+      </section>
 
       {/* Sources -> Fivetran -> Iceberg -> Snowflake GovCloud */}
       <section className="research-card p-6">
