@@ -144,7 +144,7 @@ const STACK = [
   { layer: 'Catalog',    name: 'Snowflake Polaris',            note: 'Iceberg REST catalog with row- and column-level access control mapped to BFO IAM.' },
   { layer: 'Transform',  name: 'dbt on Snowflake GovCloud',    note: '154 models, 488 tests, four layered marts.' },
   { layer: 'Query',      name: 'Snowflake GovCloud',           note: 'Serverless, Iceberg-aware, federated to other authorized agency readers.' },
-  { layer: 'Frontend',   name: 'React 19 + Vite + Tailwind',   note: 'Static SPA on GitHub Pages, reads JSON snapshot.' },
+  { layer: 'Frontend',   name: 'React 19 + Vite + Tailwind',   note: 'Static SPA on GitHub Pages, reads the gold layer via Snowflake / Athena / Trino.' },
   { layer: 'Charts',     name: 'Recharts',                     note: 'Composable charts for mission and workforce trends.' },
 ];
 

@@ -240,8 +240,9 @@ export default function Layout() {
           <div>
             <div className="eyebrow-light mb-2">Authorization Boundary</div>
             <p className="leading-relaxed text-white/70">
-              FedRAMP High. Snowflake GovCloud, Apache Iceberg in BFO-controlled S3 (GovCloud),
-              Fivetran connectors operating within the BFO ATO.
+              FedRAMP High. Source → Fivetran → Iceberg on S3 (GovCloud) → dbt →
+              Great Expectations → Snowflake / Athena / Trino → Cortex. Fivetran connectors
+              and Snowflake GovCloud operate within the BFO ATO.
             </p>
           </div>
           <div>
