@@ -7,8 +7,8 @@ import { AliveMedallion, type SourceNode, type EngineNode, type ConsumerRole } f
 // Clarity / Verity / Altavest mapping so AliveMedallion renders the same
 // SOURCES / LAKEHOUSE / CONSUMERS triptych with federal copy.
 const FED_SOURCES: SourceNode[] = [
-  { id: 'ben',   label: 'Benefits Eligibility', sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '52s lag',  status: 'healthy' },
-  { id: 'case',  label: 'Case Management',      sub: 'Oracle LogMiner',         logo: 'oracle',    freshness: '3 min lag', status: 'healthy' },
+  { id: 'ben',   label: 'Benefits Eligibility', sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '52s lag',  status: 'healthy', pipelineUrl: 'https://fivetran.com/dashboard/connectors/incidentally_tangent' },
+  { id: 'case',  label: 'Case Management',      sub: 'Oracle Binary Log Reader',         logo: 'oracle',    freshness: '3 min lag', status: 'healthy', pipelineUrl: 'https://fivetran.com/dashboard/connectors/entreaty_historical' },
   { id: 'feed',  label: 'Federal Data Feed',    sub: 'Real-time event stream', logo: 'hl7',       freshness: 'live',      status: 'healthy', streaming: true },
   { id: 'audit', label: 'OIG / GAO Audits',     sub: 'Quarterly regulatory',   logo: 'cms',       freshness: '14d lag',   status: 'healthy' },
 ];

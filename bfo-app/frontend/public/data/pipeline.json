@@ -2,6 +2,24 @@
   "generated_at": "2026-05-21T08:00:00Z",
   "connectors": [
     {
+      "name": "Benefits Eligibility (SQL Server)",
+      "type": "Fivetran HVR \u2014 CDC",
+      "status": "ok",
+      "rows_per_hour": 4120000,
+      "lag_seconds": 14,
+      "boundary": "BFO ATO",
+      "fivetran_id": "incidentally_tangent"
+    },
+    {
+      "name": "Case Management (Oracle)",
+      "type": "Fivetran HVR \u2014 CDC",
+      "status": "ok",
+      "rows_per_hour": 4120000,
+      "lag_seconds": 14,
+      "boundary": "BFO ATO",
+      "fivetran_id": "entreaty_historical"
+    },
+    {
       "name": "BENS Mainframe (Cobol benefits engine)",
       "type": "Fivetran HVR \u2014 CDC",
       "status": "running",
